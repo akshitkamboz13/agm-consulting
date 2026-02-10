@@ -1,23 +1,42 @@
 import { Link, NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// TODO: refactor this mess later, maybe move to its own file?
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
-    // quick toggle
+    // Handle scroll effect for navbar border
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 10) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const toggleMenu = () => {
         setIsOpen(!isOpen);
-        // console.log('menu toggled', !isOpen);
     };
 
     return (
-        <nav className="navbar">
-            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '1rem 2rem' }}>
+        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '1.25rem 2rem' }}>
 
-                {/* Logo area */}
-                <Link to="/" className="logo" style={{ fontSize: '1.6rem', letterSpacing: '-0.5px' }}>
-                    nexus<span style={{ color: '#64748b', fontWeight: '400' }}>inc.</span>
+                {/* Logo - Serif and elegant */}
+                <Link to="/" className="logo" style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.5rem',
+                    fontWeight: '700',
+                    color: 'var(--primary)',
+                    letterSpacing: '-0.02em',
+                    textDecoration: 'none'
+                }}>
+                    AGM<span style={{ color: 'var(--accent)', fontWeight: '400', fontStyle: 'italic' }}>Consulting</span>
                 </Link>
 
                 {/* Mobile trigger */}
@@ -25,45 +44,44 @@ const Navbar = () => {
                     className="mobile-menu-btn"
                     onClick={toggleMenu}
                     aria-label="Toggle menu"
-                    style={{ fontSize: '1.8rem', paddingTop: '5px' }} // pixel pushing alignment
+                    style={{ fontSize: '1.5rem', border: 'none', background: 'none', cursor: 'pointer' }}
                 >
-                    {isOpen ? '✕' : '☰'}
+                    {isOpen ? '✕' : '—'}
                 </button>
 
                 {/* Links */}
-                <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+                <ul className={`nav-links ${isOpen ? 'open' : ''}`} style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem' }}>
                     <li>
-                        <NavLink to="/" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'inherit' })}>
+                        <NavLink to="/" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--text-secondary)', fontWeight: '500' })}>
                             Home
                         </NavLink>
                     </li>
 
                     <li>
-                        <NavLink to="/services" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'inherit' })}>
+                        <NavLink to="/services" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--text-secondary)', fontWeight: '500' })}>
                             Expertise
                         </NavLink>
                     </li>
 
                     <li>
-                        <NavLink to="/about" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'inherit' })}>
-                            Agency
+                        <NavLink to="/about" onClick={() => setIsOpen(false)} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--text-secondary)', fontWeight: '500' })}>
+                            Firm
                         </NavLink>
                     </li>
 
-                    {/* CTA Button */}
+                    {/* CTA Button - Subtle Outline */}
                     <li>
                         <NavLink
                             to="/contact"
-                            className="btn"
+                            className="btn-outline"
                             style={{
-                                color: 'white',
-                                padding: '0.6rem 1.25rem',
-                                borderRadius: '50px', // rounded look feels more modern
-                                boxShadow: '0 4px 14px 0 rgba(0,118,255,0.39)'
+                                padding: '0.5rem 1.5rem',
+                                borderRadius: 'var(--radius-sm)',
+                                fontSize: '0.9rem'
                             }}
                             onClick={() => setIsOpen(false)}
                         >
-                            Let's Talk
+                            Inquire
                         </NavLink>
                     </li>
                 </ul>

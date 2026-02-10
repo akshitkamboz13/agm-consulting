@@ -1,7 +1,7 @@
 {
-  "name": "nexus-consulting-server",
+  "name": "AMG-consulting-server",
   "version": "1.0.0",
-  "description": "Backend for Nexus Consulting website",
+  "description": "Backend for AMG Consulting website",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

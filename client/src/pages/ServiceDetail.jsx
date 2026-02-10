@@ -42,17 +42,17 @@ export default function ServiceDetail() {
                     <div style={{ background: '#f8fafc', padding: '2.5rem', borderRadius: '12px', border: '1px solid var(--border)' }}>
                         <h3 style={{ marginBottom: '1.5rem' }}>Common Use Cases</h3>
                         <div className="grid grid-2">
-                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                            <ul style={{ listStyle: 'none', padding: 0, listStyleType: 'none' }}>
                                 {service.useCases.slice(0, Math.ceil(service.useCases.length / 2)).map((useCase, idx) => (
-                                    <li key={idx} style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
-                                        <span style={{ color: 'var(--primary)' }}>•</span> {useCase}
+                                    <li key={idx} style={{ marginBottom: '1rem', display: 'flex', gap: '1rem', listStyleType: 'none' }}>
+                                        <span style={{ color: 'var(--primary)' }}></span> {useCase}
                                     </li>
                                 ))}
                             </ul>
-                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                            <ul style={{ listStyle: 'none', padding: 0, listStyleType: 'none' }}>
                                 {service.useCases.slice(Math.ceil(service.useCases.length / 2)).map((useCase, idx) => (
-                                    <li key={idx} style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
-                                        <span style={{ color: 'var(--primary)' }}>•</span> {useCase}
+                                    <li key={idx} style={{ marginBottom: '1rem', display: 'flex', gap: '1rem', listStyleType: 'none' }}>
+                                        <span style={{ color: 'var(--primary)' }}></span> {useCase}
                                     </li>
                                 ))}
                             </ul>

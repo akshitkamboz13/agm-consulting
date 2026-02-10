@@ -2,133 +2,190 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
-    const [services, setServices] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [scrolled, setScrolled] = useState(0);
 
     useEffect(() => {
-        // Fetch services for the overview section
-        fetch('http://localhost:5000/api/services')
-            .then((res) => {
-                if (!res.ok) throw new Error('Network response was not ok');
-                return res.json();
-            })
-            .then((data) => {
-                setServices(data.slice(0, 3)); // Just show top 3
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error('Failed to fetch services:', err);
-                setLoading(false);
-            });
+        const handleScroll = () => setScrolled(window.scrollY);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
         <div className="home-page">
-            {/* Hero Section */}
+            {/* Hero Section - Typography Led */}
             <section className="hero" style={{
-                background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
-                padding: '6rem 2rem',
-                textAlign: 'center'
+                padding: '8rem 1rem 6rem',
+                minHeight: '85vh',
+                display: 'flex',
+                alignItems: 'center',
+                background: 'var(--bg-primary)',
+                position: 'relative',
+                overflow: 'hidden'
             }}>
-                <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    <h1 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-1px' }}>
-                        Strategic Growth for <span style={{ color: 'var(--primary)' }}>Modern Business</span>
+                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+                    <span className="section-label" style={{ opacity: 0, animation: 'fadeIn 0.8s ease forwards' }}>
+                        Strategic Advisory
+                    </span>
+                    <h1 style={{
+                        fontSize: 'clamp(2.5rem, 5vw, 5.5rem)',
+                        marginBottom: '2rem',
+                        maxWidth: '900px',
+                        lineHeight: '1.1',
+                        opacity: 0,
+                        animation: 'fadeInUp 0.8s ease 0.2s forwards'
+                    }}>
+                        Navigating uncertainty with <span style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic', color: 'var(--text-secondary)' }}>clarity</span> and <span style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic', color: 'var(--accent)' }}>precision</span>.
                     </h1>
-                    <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '2.5rem', lineHeight: '1.7' }}>
-                        We help forward-thinking companies navigate digital transformation, optimize operations, and unlock new revenue streams.
+                    <p style={{
+                        fontSize: '1.25rem',
+                        color: 'var(--text-secondary)',
+                        maxWidth: '600px',
+                        lineHeight: '1.8',
+                        marginBottom: '3rem',
+                        opacity: 0,
+                        animation: 'fadeInUp 0.8s ease 0.4s forwards'
+                    }}>
+                        AGM Consulting partners with leaders to tackle their most critical challenges and capture their greatest opportunities.
                     </p>
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                        <Link to="/contact" className="btn" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>
-                            Start Your Transformation
+                    <div style={{ opacity: 0, animation: 'fadeInUp 0.8s ease 0.6s forwards', display: 'flex', alignItems: 'center' }}>
+                        <Link to="/contact" className="btn" style={{ marginRight: '1rem' }}>
+                            Start a Conversation
                         </Link>
-                        <Link to="/services" className="btn btn-outline" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>
-                            Explore Services
+                        <Link to="/about" className="btn-outline" style={{ border: 'none', paddingLeft: 0, textDecoration: 'underline', textUnderlineOffset: '4px' }}>
+                            Read our Manifesto
                         </Link>
                     </div>
                 </div>
+
+                {/* Subtle Geometric Background Element */}
+                <div style={{
+                    position: 'absolute',
+                    top: '-10%',
+                    right: '-5%',
+                    width: '40vw',
+                    height: '40vw',
+                    background: 'radial-gradient(circle, rgba(212, 163, 115, 0.05) 0%, rgba(255,255,255,0) 70%)',
+                    zIndex: 1,
+                    pointerEvents: 'none'
+                }} />
             </section>
 
-            {/* Services Overview */}
-            <section className="services-section" style={{ padding: '5rem 2rem' }}>
+            {/* The Firm / Philosophy - Text Heavy & Serious */}
+            <section style={{ padding: '6rem 2rem', background: 'white' }}>
                 <div className="container">
-                    <div className="text-center mb-4">
-                        <h2 style={{ marginBottom: '1rem' }}>Our Expertise</h2>
-                        <p style={{ color: 'var(--text-secondary)' }}>Comprehensive solutions tailored to your industry needs.</p>
-                    </div>
-
-                    {loading ? (
-                        <div className="loading">Loading insights...</div>
-                    ) : (
-                        <div className="grid grid-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-                            {services.map((service) => (
-                                <div key={service._id} className="card">
-                                    <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>{service.title}</h3>
-                                    <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
-                                        {service.shortDescription}
-                                    </p>
-                                    <Link to={`/services/${service._id}`} style={{ fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        Learn more <span>→</span>
-                                    </Link>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    <div className="text-center" style={{ marginTop: '3rem' }}>
-                        <Link to="/services" className="btn btn-outline">View All Services</Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* Why Choose Us */}
-            <section style={{ background: '#1e293b', color: 'white', padding: '5rem 2rem' }}>
-                <div className="container">
-                    <div className="grid grid-2" style={{ gap: '4rem', alignItems: 'center'}}>
+                    <div className="grid grid-2" style={{ alignItems: 'start', gap: '4rem' }}>
                         <div>
-                            <h2 style={{ color: 'white', marginBottom: '1.5rem' }}>Why Industry Leaders Trust Nexus</h2>
-                            <p style={{ color: '#94a3b8', marginBottom: '2rem', fontSize: '1.1rem' }}>
-                                We don't just deliver reports; we deliver results. Our team of veteran consultants and engineers work as an extension of your team.
+                            <span className="section-label">The Firm</span>
+                            <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>Not just consultants. <br />Partners in craft.</h2>
+                        </div>
+                        <div>
+                            <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+                                We believe that true transformation doesn't come from templates or playbooks. It comes from deep inquiry, rigorous analysis, and a human-centric approach to problem-solving.
                             </p>
-                            <ul style={{ listStyle: 'none', padding: 0 }}>
-                                {[
-                                    'Proven track record with Fortune 500s',
-                                    'End-to-end implementation capabilities',
-                                    'Data-driven decision making framework',
-                                    'Agile methodology adapted for enterprise',
-                                ].map((item, i) => (
-                                    <li key={i} style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                        <span style={{ color: '#22c55e', fontSize: '1.2rem' }}>✓</span> {item}
-                                    </li>
-                                ))}
-                            </ul>
+                            <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+                                Founded on the principles of integrity and intellectual honesty, AGM separates signal from noise to deliver actionable insights that drive measurable value.
+                            </p>
+                            <Link to="/about" style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                fontSize: '0.95rem',
+                                fontWeight: '600',
+                                borderBottom: '1px solid var(--primary)',
+                                paddingBottom: '2px'
+                            }}>
+                                Meet our leadership
+                            </Link>
                         </div>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-                            <div>
-                                <div style={{ fontSize: '4rem', fontWeight: '700', color: '#3b82f6', marginBottom: '0.5rem' }}>98%</div>
-                                <p style={{ color: '#cbd5e1', marginBottom: '2rem' }}>Client Retention Rate</p>
-                            </div>
+                    </div>
+                </div>
+            </section>
 
-                            <div>
-                                <div style={{ fontSize: '4rem', fontWeight: '700', color: '#f97316', marginBottom: '0.5rem' }}>10+</div>
-                                <p style={{ color: '#cbd5e1' }}>Years of Excellence</p>
-                            </div>
+            {/* Services / Capabilities - Grid Layout */}
+            <section style={{ padding: '6rem 2rem', background: 'var(--bg-secondary)' }}>
+                <div className="container">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4rem' }}>
+                        <div>
+                            <span className="section-label">Capabilities</span>
+                            <h2 style={{ maxWidth: '600px' }}>Core areas of expertise</h2>
                         </div>
+                        <Link to="/services" className="btn-outline" style={{ border: 'none', paddingLeft: 0, whiteSpace: 'nowrap' }}>View All</Link>
+                    </div>
+
+                    <div className="grid grid-3">
+                        {[
+                            { title: "Digital Transformation", desc: "Reimagining business models for the digital age." },
+                            { title: "Operational Strategy", desc: "Optimizing currents for efficiency and resilience." },
+                            { title: "Capital Allocation", desc: "Directing resources to high-yield opportunities." }
+                        ].map((item, i) => (
+                            <div key={i} className="card" style={{ background: 'var(--bg-primary)', border: 'none' }}>
+                                <div style={{
+                                    width: '40px',
+                                    height: '1px',
+                                    background: 'var(--accent)',
+                                    marginBottom: '1.5rem'
+                                }}></div>
+                                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{item.title}</h3>
+                                <p style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Social Proof / Metrics - Subtle & Elegant */}
+            <section style={{ padding: '6rem 2rem', background: 'var(--primary)', color: 'white' }}>
+                <div className="container">
+                    <span className="section-label" style={{ color: 'rgba(255,255,255,0.6)' }}>Impact</span>
+                    <div className="grid grid-3" style={{ textAlign: 'center', marginTop: '2rem' }}>
+                        {[
+                            { label: "Client Retention", value: "98%" },
+                            { label: "Assets Advised", value: "$500M+" },
+                            { label: "Global Offices", value: "4" }
+                        ].map((stat, i) => (
+                            <div key={i} style={{ padding: '2rem' }}>
+                                <div style={{
+                                    fontFamily: 'var(--font-heading)',
+                                    fontSize: '4rem',
+                                    color: 'var(--accent)',
+                                    lineHeight: 1
+                                }}>{stat.value}</div>
+                                <div style={{
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.1em',
+                                    fontSize: '0.85rem',
+                                    marginTop: '1rem',
+                                    color: 'rgba(255,255,255,0.8)'
+                                }}>{stat.label}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
             {/* CTA */}
-            <section style={{ padding: '6rem 2rem', textAlign: 'center' }}>
-                <div className="container" style={{ maxWidth: '700px' }}>
-                    <h2 style={{ marginBottom: '1.5rem' }}>Ready to Accelerate Growth?</h2>
-                    <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem' }}>
-                        Schedule a free 30-minute discovery call with our principal consultants.
+            <section style={{ padding: '8rem 2rem', textAlign: 'center', background: 'white' }}>
+                <div className="container" style={{ maxWidth: '800px' }}>
+                    <h2 style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>Let's build the future.</h2>
+                    <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '3rem' }}>
+                        Whether you're looking to pivot, scale, or stabilize, we're ready to stand beside you.
                     </p>
-                    <Link to="/contact" className="btn" style={{ padding: '1rem 2.5rem', fontSize: '1.2rem' }}>
-                        Get in Touch
+                    <Link to="/contact" className="btn" style={{ padding: '1rem 3rem', fontSize: '1.1rem' }}>
+                        Inquire About Partnership
                     </Link>
                 </div>
             </section>
+
+            <style>{`
+                @keyframes fadeIn {
+                    to { opacity: 1; }
+                }
+                @keyframes fadeInUp {
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                h1, p, .btn, .btn-outline {
+                    transform: translateY(20px);
+                }
+            `}</style>
         </div>
     );
 }

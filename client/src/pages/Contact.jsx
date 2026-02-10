@@ -62,7 +62,7 @@ export default function Contact() {
 
                         <div style={{ marginBottom: '2rem' }}>
                             <h3 style={{ marginBottom: '0.5rem' }}>Email</h3>
-                            <p style={{ color: 'var(--text-secondary)' }}>hello@nexusconsulting.com</p>
+                            <p style={{ color: 'var(--text-secondary)' }}>hello@AMGconsulting.com</p>
                         </div>
 
                         <div style={{ marginBottom: '2rem' }}>

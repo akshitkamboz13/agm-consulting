@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Service = require('./models/Service');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/nexus_consulting';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/AMG_consulting';
 
 const seedData = [
     {
@@ -77,7 +77,30 @@ const seedData = [
             'Building offshore development centers',
         ],
     },
-];
+    {
+        title: 'AI & Machine Learning Integration',
+        shortDescription: 'Leverage the power of AI to automate complex tasks, enhance decision-making, and create intelligent products.',
+        detailedDescription:
+            'We help businesses integrate artificial intelligence and machine learning into their core operations. From natural language processing and computer vision to recommendation engines and predictive maintenance, our team builds custom AI solutions that solve real-world problems. We guide you through the entire lifecycle: data preparation, model training, deployment, and continuous monitoring to ensure accuracy and performance.',
+        useCases: [
+            'Generative AI for automated content creation',
+            'Computer vision for quality control in manufacturing',
+            'Natural language processing for customer support bots',
+            'Predictive maintenance for industrial equipment',
+        ],
+    },
+    {
+        title: 'Blockchain & Web3 Solutions',
+        shortDescription: 'Implement secure, transparent, and decentralized solutions using blockchain technology.',
+        detailedDescription:
+            'We help enterprises explore and implement blockchain technology to improve transparency, security, and efficiency. From private permissioned networks to public chain dApps and smart contracts, our experts guide you through the complexities of Web3. We specialize in supply chain traceability, digital identity, and tokenization of assets.',
+        useCases: [
+            'Supply chain transparency and tracking',
+            'Smart contract auditing and development',
+            'Decentralized Finance (DeFi) application development',
+            'NFT marketplaces for digital assets',
+        ],
+    },];
 
 async function seed() {
     try {

@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/nexus_consulting';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/AMG_consulting';
 
 // routes
 const serviceRoutes = require('./routes/serviceRoutes');
@@ -21,7 +21,7 @@ app.use('/api/contact', contactRoutes);
 
 // basic health check
 app.get('/', (req, res) => {
-  res.json({ status: 'ok', message: 'Nexus Consulting API' });
+  res.json({ status: 'ok', message: 'AMG Consulting API' });
 });
 
 console.log('Test connection'); // debugging leftover
