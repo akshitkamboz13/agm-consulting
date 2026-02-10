@@ -8,7 +8,7 @@ export default function ServiceDetail() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/services/${id}`)
+        fetch(`https://agm-consulting.onrender.com/api/services/${id}`)
             .then((res) => {
                 if (!res.ok) throw new Error('Service not found');
                 return res.json();

@@ -7,7 +7,7 @@ export default function Services() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/services')
+        fetch('https://agm-consulting.onrender.com/api/services')
             .then((res) => {
                 if (!res.ok) throw new Error('Failed to fetch services');
                 return res.json();
@@ -35,7 +35,7 @@ export default function Services() {
                     </p>
                 </div>
 
-                <div className="grid grid-2" style={{ gap: '2.5rem'}}>
+                <div className="grid grid-2" style={{ gap: '2.5rem' }}>
                     {services.map((service) => (
                         <div key={service._id} className="card" style={{}}>
                             <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#1e293b' }}>{service.title}</h2>
